@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,18 +19,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello/{name}', function (string $name) {
-    return 'Hello, ' . $name;
-});
+Route::get('/about', [AboutController::class, 'index']);
 
-Route::get('/about', function () {
-    return 'About project';
-});
+Route::get('/category', [CategoryController::class, 'index'])
+        ->name('category');
 
-Route::get('/news', function () {
-    return 'News';
-});
+Route::get('/category/{id}', [CategoryController::class, 'list'])
+        ->name('category.news');
 
-Route::get('/news/{id}', function (int $id) {
-    return 'News detail ' . $id;
-});
+Route::get('/news', [NewsController::class, 'index'])
+        ->name('news');
+
+Route::get('/news/{id}', [NewsController::class, 'show'])
+        ->name('news.show');
