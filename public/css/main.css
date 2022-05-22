@@ -6,3 +6,9 @@ body {
 footer {
     margin-top: auto;
 }
+.nav-sidebar .nav-link:not(.active) {
+    color: inherit;
+}
+.nav-sidebar .nav-link.active {
+    font-weight: bold;
+}

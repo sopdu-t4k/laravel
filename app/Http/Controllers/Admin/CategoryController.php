@@ -42,7 +42,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string']
+	]);
+
+        dump($request->input('title'));
     }
 
     /**
@@ -64,7 +68,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.categories.edit');
     }
 
     /**

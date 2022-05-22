@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class NewsController extends Controller
+class ReviewsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = $this->getNews();
-
-        return view('admin.news.index', [
-            'title' => 'Новости',
-            'items' => $news
+        return view('admin.reviews.index', [
+            'title' => 'Отзывы'
         ]);
     }
 
@@ -29,9 +26,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.news.create', [
-            'title' => 'Добавить новость'
-        ]);
+        //
     }
 
     /**
@@ -42,13 +37,7 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string'],
-            'preview' => ['required', 'string'],
-            'source' => ['required', 'string'],
-	]);
-
-        return response()->json($request->only(['title', 'preview', 'source', 'status']), 201);
+        dump($request->only('name', 'message'));
     }
 
     /**

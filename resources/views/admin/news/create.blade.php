@@ -5,4 +5,38 @@
         <h1 class="h2">{{ $title }}</h1>
     </div>
 
+    <div class="mb-5">
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <x-alert type="danger" :message="$error"></x-alert>
+            @endforeach
+        @endif
+
+        <form method="post" action="{{ route('admin.news.store') }}">
+            @csrf
+
+            <div class="mb-3">
+                <label class="form-label">Заголовок</label>
+                <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Анонс</label>
+                <textarea class="form-control" name="preview">{!! old('preview') !!}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Источник</label>
+                <input type="text" name="source" class="form-control" value="{{ old('source') }}">
+            </div>
+            <div class="mb-5">
+                <label class="form-label">Статус</label>
+                <select class="form-select" name="status">
+                    <option @if(old('status') === 'DRAFT') selected @endif>DRAFT</option>
+                    <option @if(old('status') === 'ACTIVE') selected @endif>ACTIVE</option>
+                    <option @if(old('status') === 'BLOCKED') selected @endif>BLOCKED</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
+
 @endsection
