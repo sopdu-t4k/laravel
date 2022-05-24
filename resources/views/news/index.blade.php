@@ -14,15 +14,15 @@
                 <div class="card shadow-sm mb-4">
                     <svg class="bg-secondary card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img"></svg>
                     <div class="card-body">
-                        <h5 class="card-title">{!! $news['title'] !!}</h5>
-                        <p class="card-text">{!! $news['preview'] !!}</p>
+                        <h5 class="card-title">{{ $news->title }}</h5>
+                        <p class="card-text">{{ $news->preview }}</p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center m-3">
-                        <div class="small">{{ $news['created_at'] }}</div>
-                        <a href="{{ route('news.show', $news['id']) }}" class="btn btn-outline-secondary">Подробнее</a>
+                        <div class="small">{{ $news->created_at }}</div>
+                        <a href="{{ route('news.show', $news->id) }}" class="btn btn-outline-secondary">Подробнее</a>
                     </div>
                     <div class="card-footer text-muted small">
-                        <b>Источник:</b> {{ $news['source'] }}
+                        <b>Источник:</b> {{ $news->source }}
                     </div>
                 </div>
             </div>

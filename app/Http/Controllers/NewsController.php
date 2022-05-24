@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $news = $this->getNews();
+        $model = app(News::class);
+        $news = $model->getNews();
 
         return view('news/index', [
             'title' => 'Новости',
@@ -18,13 +20,8 @@ class NewsController extends Controller
 
     public function show(int $id)
     {
-        $news = [];
-        foreach ($this->getNews() as $item) {
-            if ($item['id'] == $id) {
-                $news = $item;
-                break;
-            }
-        }
+        $model = app(News::class);
+        $news = $model->getNewsById($id);
 
         return view('news/show', [
             'news' => $news

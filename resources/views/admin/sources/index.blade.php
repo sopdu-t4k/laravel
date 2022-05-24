@@ -5,7 +5,7 @@
         <h1 class="h2">{{ $title }}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="me-2">
-                <a href="{{ route('admin.news.create') }}" class="btn btn-sm btn-outline-secondary">Добавить новость</a>
+                <a href="{{ route('admin.sources.create') }}" class="btn btn-sm btn-outline-secondary">Добавить источник</a>
             </div>
         </div>
     </div>
@@ -16,23 +16,21 @@
                 <tr>
                     <th>#ID</th>
                     <th>Наименование</th>
-                    <th>Источник</th>
-                    <th>Статус</th>
                     <th>Дата добавления</th>
                     <th>Управление</th>
                 </tr>
             </thead>
             @isset($items)
                 <tbody>
-                    @foreach($items as $news)
+                    @foreach($items as $source)
                         <tr>
-                            <td>{{ $news->id }}</td>
-                            <td>{{ $news->title }}</td>
-                            <td>{{ $news->source }}</td>
-                            <td>{{ $news->status }}</td>
-                            <td>{{ $news->created_at }}</td>
+                            <td>{{ $source->id }}</td>
                             <td>
-                                <a href="{{ route('admin.news.edit', ['news' => $news->id]) }}" class="text-success me-2">edit</a>
+                                <a href="{{ $source->url }}" target="_blank">{{ $source->title }}</a>
+                            </td>
+                            <td>{{ $source->created_at }}</td>
+                            <td>
+                                <a href="{{ route('admin.sources.edit', ['source' => $source->id]) }}" class="text-success me-2">edit</a>
                                 <a href="#" class="text-danger">delete</a>
                             </td>
                         </tr>

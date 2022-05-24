@@ -16,16 +16,23 @@
                 <tr>
                     <th>#ID</th>
                     <th>Наименование</th>
+                    <th>Описание</th>
                     <th>Дата добавления</th>
+                    <th>Управление</th>
                 </tr>
             </thead>
             @isset($items)
                 <tbody>
-                    @foreach($items as $id => $category)
+                    @foreach($items as $category)
                         <tr>
-                            <td>{{ $id }}</td>
-                            <td>{{ $category }}</td>
-                            <td></td>
+                            <td>{{ $category->id }}</td>
+                            <td>{{ $category->title }}</td>
+                            <td>{{ $category->description }}</td>
+                            <td>{{ $category->created_at }}</td>
+                            <td>
+                                <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}" class="text-success me-2">edit</a>
+                                <a href="#" class="text-danger">delete</a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

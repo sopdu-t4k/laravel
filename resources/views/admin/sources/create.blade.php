@@ -12,16 +12,16 @@
             @endforeach
         @endif
 
-        <form method="post" action="{{ route('admin.categories.store') }}">
+        <form method="post" action="{{ route('admin.sources.store') }}">
             @csrf
 
             <div class="mb-3">
-                <label class="form-label">Наименование категории</label>
-                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror">
+                <label class="form-label">Наименование источника</label>
+                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
             </div>
             <div class="mb-5">
-                <label class="form-label">Описание</label>
-                <textarea class="form-control" name="description">{!! old('description') !!}</textarea>
+                <label class="form-label">URL адрес</label>
+                <input type="text" name="url" class="form-control @error('url') is-invalid @enderror" value="{{ old('url') }}">
             </div>
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>

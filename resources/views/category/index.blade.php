@@ -5,8 +5,8 @@
 
     @isset($items)
         <div class="list-group my-4">
-            @foreach($items as $id => $category)
-                <a  class="list-group-item list-group-item-action" href="{{ route('category.news', $id) }}">{{ $category }}</a>
+            @foreach($items as $category)
+                <a class="list-group-item list-group-item-action" href="{{ route('category.news', $category->id) }}">{{ $category->title }}</a>
             @endforeach
         </div>
     @endisset

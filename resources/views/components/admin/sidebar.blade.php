@@ -12,12 +12,17 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.sources.*')) active @endif" href="{{ route('admin.sources.index') }}">
+                    Источники
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif" href="{{ route('admin.news.index') }}">
                     Новости
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if(request()->routeIs('admin.reviews.*')) active @endif" href="{{ route('admin.reviews.index') }}">
+                <a class="nav-link @if(request()->routeIs('admin.reviews')) active @endif" href="{{ route('admin.reviews') }}">
                     Отзывы
                 </a>
             </li>

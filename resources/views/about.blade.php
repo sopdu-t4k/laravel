@@ -12,20 +12,20 @@
         </div>
         <div class="vol-12 col-lg-6 mb-5">
             <div class="bg-light p-4">
-            <h2 class="h4 mb-4">Оставьте ваш отзыв</h2>
-            <form method="post" action="{{ route('admin.reviews.store') }}">
-                @csrf
+                <h2 class="h4 mb-4">Оставьте ваш отзыв</h2>
+                <form method="post" action="{{ route('reviews.save') }}">
+                    @csrf
 
-                <div class="mb-3">
-                    <label class="form-label">Ваше Имя</label>
-                    <input type="text" name="name" class="form-control" required>
-                </div>
-                <div class="mb-5">
-                    <label class="form-label">Ваше сообщение</label>
-                    <textarea class="form-control" name="message" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-secondary">Отправить</button>
-            </form>
+                    <div class="mb-3">
+                        <label class="form-label">Ваше Имя</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-5">
+                        <label class="form-label">Ваше сообщение</label>
+                        <textarea class="form-control" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Отправить</button>
+                </form>
             </div>
         </div>
     </div>

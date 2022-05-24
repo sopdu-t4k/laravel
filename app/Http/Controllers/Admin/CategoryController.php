@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = $this->getCategory();
+        $model = app(Category::class);
+        $category = $model->getCategories();
 
         return view('admin.categories.index', [
             'title' => 'Категории новостей',
@@ -46,7 +48,7 @@ class CategoryController extends Controller
             'title' => ['required', 'string']
 	]);
 
-        dump($request->input('title'));
+        dump($request->only(['title', 'description']));
     }
 
     /**

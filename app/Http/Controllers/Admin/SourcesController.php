@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Source;
 use Illuminate\Http\Request;
 
-class ReviewsController extends Controller
+class SourcesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,12 @@ class ReviewsController extends Controller
      */
     public function index()
     {
-        return view('admin.reviews.index', [
-            'title' => 'Отзывы'
+        $model = app(Source::class);
+        $sources = $model->getSources();
+
+        return view('admin.sources.index', [
+            'title' => 'Источники',
+            'items' => $sources
         ]);
     }
 
@@ -26,7 +31,9 @@ class ReviewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.sources.create', [
+            'title' => 'Добавить источник'
+        ]);
     }
 
     /**
@@ -37,7 +44,12 @@ class ReviewsController extends Controller
      */
     public function store(Request $request)
     {
-        dump($request->only('name', 'message'));
+        $request->validate([
+            'title' => ['required', 'string'],
+            'url' => ['required', 'string']
+	]);
+
+        dump($request->input('title'));
     }
 
     /**
