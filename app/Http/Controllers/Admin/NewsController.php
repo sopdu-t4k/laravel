@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Source;
 use App\Models\News;
+use App\Queries\QueryBuilderNews;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -13,14 +16,12 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(QueryBuilderNews $news)
     {
-        $model = app(News::class);
-        $news = $model->getNews();
-
         return view('admin.news.index', [
             'title' => 'Новости',
-            'items' => $news
+            'items' => $news->getNews(),
+            'pagination' => true
         ]);
     }
 
@@ -31,8 +32,13 @@ class NewsController extends Controller
      */
     public function create()
     {
+        $categories = Category::all();
+        $sources = Source::all();
+
         return view('admin.news.create', [
-            'title' => 'Добавить новость'
+            'title' => 'Добавить новость',
+            'categories' => $categories,
+            'sources' => $sources
         ]);
     }
 
@@ -44,13 +50,16 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string'],
-            'preview' => ['required', 'string'],
-            'source' => ['required', 'string'],
-	]);
+        $validated = $request->except(['_token', 'image']);
+        $validated['slug'] = \Str::slug($validated['title']);
+        $news = News::create($validated);
 
-        return response()->json($request->only(['title', 'preview', 'source', 'status']), 201);
+        if($news) {
+            return redirect()->route('admin.news.index')
+                    ->with('success', 'Запись успешно добавлена');
+        }
+
+        return back()->with('error', 'Ошибка добавления записи');
     }
 
     /**
@@ -67,33 +76,50 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(News $news)
     {
-        //
+        $categories = Category::all();
+        $sources = Source::all();
+
+        return view('admin.news.edit', [
+            'title' => 'Редактирование новости',
+            'news' => $news,
+            'categories' => $categories,
+            'sources' => $sources
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, News $news)
     {
-        //
+        $validated = $request->except(['_token', 'image']);
+        $validated['slug'] = \Str::slug($validated['title']);
+        $news = $news->fill($validated);
+
+        if($news->save()) {
+            return redirect()->route('admin.news.index')
+                    ->with('success', 'Запись успешно обновлена');
+        }
+
+        return back()->with('error', 'Ошибка обновления записи');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
         //
     }

@@ -13,6 +13,9 @@
         <div class="vol-12 col-lg-6 mb-5">
             <div class="bg-light p-4">
                 <h2 class="h4 mb-4">Оставьте ваш отзыв</h2>
+
+                @include('inc.messages')
+
                 <form method="post" action="{{ route('reviews.save') }}">
                     @csrf
 

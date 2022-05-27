@@ -10,6 +10,8 @@
         </div>
     </div>
 
+    @include('inc.messages')
+
     <div class="table-responsive mb-5">
         <table class="table table-striped table-sm">
             <thead>
@@ -32,7 +34,7 @@
                             <td>{{ $news->status }}</td>
                             <td>{{ $news->created_at }}</td>
                             <td>
-                                <a href="{{ route('admin.news.edit', ['news' => $news->id]) }}" class="text-success me-2">edit</a>
+                                <a href="{{ route('admin.news.edit', ['news' => $news]) }}" class="text-success me-2">edit</a>
                                 <a href="#" class="text-danger">delete</a>
                             </td>
                         </tr>
@@ -41,4 +43,6 @@
             @endisset
         </table>
     </div>
+
+    {{ $items->links() }}
 @endsection

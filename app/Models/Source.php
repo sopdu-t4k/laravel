@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Source extends Model
 {
@@ -12,17 +12,12 @@ class Source extends Model
 
     protected $table = 'sources';
 
-    public function getSources()
-    {
-        return DB::table($this->table)
-                ->select(['id', 'title', 'url', 'created_at'])
-                ->get();
-    }
+    protected $fillable = [
+        'title', 'url'
+    ];
 
-    public function getSource(int $id)
+    public function news(): HasMany
     {
-        return DB::table($this->table)
-               ->select(['id', 'title', 'url', 'created_at'])
-               ->find($id);
+        return $this->hasMany(News::class, 'source_id', 'id');
     }
 }

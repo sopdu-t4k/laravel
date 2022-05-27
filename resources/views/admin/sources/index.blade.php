@@ -10,6 +10,8 @@
         </div>
     </div>
 
+    @include('inc.messages')
+
     <div class="table-responsive mb-5">
         <table class="table table-striped table-sm">
             <thead>

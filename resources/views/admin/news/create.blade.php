@@ -6,11 +6,7 @@
     </div>
 
     <div class="mb-5">
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                <x-alert type="danger" :message="$error"></x-alert>
-            @endforeach
-        @endif
+        @include('inc.messages')
 
         <form method="post" action="{{ route('admin.news.store') }}">
             @csrf
@@ -25,7 +21,25 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Источник</label>
-                <input type="text" name="source" class="form-control" value="{{ old('source') }}">
+                <select class="form-select" name="source_id">
+                    @foreach($sources as $source)
+                        <option value="{{ $source->id }}"
+                                @if($source->id == old('source_id')) selected @endif
+                                >{{ $source->title }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Категория</label>
+                <select class="form-select" name="category_id">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}"
+                                @if($category->id == old('category_id')) selected @endif
+                                >{{ $category->title }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="mb-5">
                 <label class="form-label">Статус</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Queries\QueryBuilderCategories;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,14 +14,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(QueryBuilderCategories $categories)
     {
-        $model = app(Category::class);
-        $category = $model->getCategories();
-
         return view('admin.categories.index', [
             'title' => 'Категории новостей',
-            'items' => $category
+            'items' => $categories->getCategories()
         ]);
     }
 
@@ -44,11 +42,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-	]);
+        $validated = $request->only(['title', 'description']);
+        $category = new Category($validated);
 
-        dump($request->only(['title', 'description']));
+        if($category->save()) {
+            return redirect()->route('admin.categories.index')
+                    ->with('success', 'Запись успешно добавлена');
+        }
+
+        return back()->with('error', 'Ошибка добавления записи');
     }
 
     /**
@@ -65,33 +67,44 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        return view('admin.categories.edit');
+        return view('admin.categories.edit', [
+            'title' => 'Редактирование категории',
+            'category' => $category
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $validated = $request->only(['title', 'description']);
+        $category = $category->fill($validated);
+
+        if($category->save()) {
+            return redirect()->route('admin.categories.index')
+                    ->with('success', 'Запись успешно обновлена');
+        }
+
+        return back()->with('error', 'Ошибка обновления записи');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         //
     }

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
@@ -12,31 +12,17 @@ class News extends Model
 
     protected $table = 'news';
 
-    public function getNews()
+    protected $fillable = [
+        'category_id', 'source_id', 'title', 'slug', 'image', 'status', 'preview'
+    ];
+
+    public function category(): BelongsTo
     {
-        return DB::table($this->table)
-                ->join('sources', 'news.source_id', '=', 'sources.id')
-                ->select(['news.id', 'news.title', 'news.slug', 'news.preview', 'news.image', 'news.status', 'news.created_at', 'sources.title as source'])
-                ->orderBy('news.created_at', 'desc')
-                ->get();
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function getNewsById(int $id)
+    public function source(): BelongsTo
     {
-        return DB::table($this->table)
-                ->join('sources', 'news.source_id', '=', 'sources.id')
-                ->select(['news.id', 'news.category_id', 'news.title', 'news.preview', 'news.image', 'news.status', 'news.created_at', 'sources.title as source'])
-                ->where('news.id', '=', $id)
-                ->first();
-    }
-
-    public function getNewsByCategory(int $id)
-    {
-        return DB::table($this->table)
-                ->join('sources', 'news.source_id', '=', 'sources.id')
-                ->select(['news.id', 'news.category_id', 'news.title', 'news.slug', 'news.preview', 'news.image', 'news.status', 'news.created_at', 'sources.title as source'])
-                ->where('news.category_id', '=', $id)
-                ->orderBy('news.created_at', 'desc')
-                ->get();
+        return $this->belongsTo(Source::class, 'source_id', 'id');
     }
 }

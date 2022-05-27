@@ -2,32 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\News;
+use App\Queries\QueryBuilderCategories;
+use App\Queries\QueryBuilderNews;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(QueryBuilderCategories $categories)
     {
-        $model = app(Category::class);
-        $category = $model->getCategories();
-
         return view('category/index', [
             'title' => 'Категории новостей',
-            'items' => $category
+            'items' => $categories->getCategories()
         ]);
     }
 
     public function list(int $id)
     {
-        $category = app(Category::class)->getCategory($id);
+        $category = app(QueryBuilderCategories::class)->getCategory($id);
 
-        $news = app(News::class)->getNewsByCategory($id);
+        $news = app(QueryBuilderNews::class)->getNewsByCategory($id);
 
         return view('news/index', [
             'title' => $category->title,
-            'items' => $news
+            'items' => $news,
+            'pagination' => false
         ]);
     }
 }

@@ -8,13 +8,13 @@
         </nav>
 
         <p class="text-muted small">
-            Опубликовано: {{ $news->created_at }}
+            Опубликовано: {{ $news->created_at->format('d.m.Y') }}
         </p>
 
         <h1>{!! $news->title !!}</h1>
 
         <div class="my-5">{!! $news->preview !!}</div>
-        <p><b>Источник:</b> {{ $news->source }}</p>
+        <p><b>Источник:</b> {{ $news->source->title }}</p>
 
     @else
 

@@ -6,11 +6,7 @@
     </div>
 
     <div class="mb-5">
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                <x-alert type="danger" :message="$error"></x-alert>
-            @endforeach
-        @endif
+        @include('inc.messages')
 
         <form method="post" action="{{ route('admin.sources.store') }}">
             @csrf

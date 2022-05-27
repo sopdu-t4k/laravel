@@ -18,7 +18,7 @@
                         <p class="card-text">{{ $news->preview }}</p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center m-3">
-                        <div class="small">{{ $news->created_at }}</div>
+                        <div class="small">{{ $news->created_at->format('d.m.Y') }}</div>
                         <a href="{{ route('news.show', $news->id) }}" class="btn btn-outline-secondary">Подробнее</a>
                     </div>
                     <div class="card-footer text-muted small">
@@ -35,5 +35,9 @@
 
         @endforelse
     </div>
+
+    @if($pagination)
+        {{ $items->links() }}
+    @endif
 
 @endsection

@@ -10,6 +10,8 @@
         </div>
     </div>
 
+    @include('inc.messages')
+
     <div class="table-responsive mb-5">
         <table class="table table-striped table-sm">
             <thead>
@@ -26,11 +28,14 @@
                     @foreach($items as $category)
                         <tr>
                             <td>{{ $category->id }}</td>
-                            <td>{{ $category->title }}</td>
+                            <td>
+                                {{ $category->title }}
+                                <span class="badge rounded-pill bg-primary ms-2">{{ $category->news_count }}</span>
+                            </td>
                             <td>{{ $category->description }}</td>
                             <td>{{ $category->created_at }}</td>
                             <td>
-                                <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}" class="text-success me-2">edit</a>
+                                <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" class="text-success me-2">edit</a>
                                 <a href="#" class="text-danger">delete</a>
                             </td>
                         </tr>
