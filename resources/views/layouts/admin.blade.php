@@ -4,6 +4,7 @@
         <title>Admin Panel</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     </head>

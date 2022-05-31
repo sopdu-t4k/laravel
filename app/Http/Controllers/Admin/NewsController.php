@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Source;
 use App\Models\News;
 use App\Queries\QueryBuilderNews;
+use App\Http\Requests\News\StoreRequest;
+use App\Http\Requests\News\UpdateRequest;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -19,7 +21,7 @@ class NewsController extends Controller
     public function index(QueryBuilderNews $news)
     {
         return view('admin.news.index', [
-            'title' => 'Новости',
+            'title' => trans('title.news.index'),
             'items' => $news->getNews(),
             'pagination' => true
         ]);
@@ -36,7 +38,7 @@ class NewsController extends Controller
         $sources = Source::all();
 
         return view('admin.news.create', [
-            'title' => 'Добавить новость',
+            'title' => trans('title.news.create'),
             'categories' => $categories,
             'sources' => $sources
         ]);
@@ -48,18 +50,18 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->except(['_token', 'image']);
+        $validated = $request->validated();
         $validated['slug'] = \Str::slug($validated['title']);
         $news = News::create($validated);
 
         if($news) {
             return redirect()->route('admin.news.index')
-                    ->with('success', 'Запись успешно добавлена');
+                    ->with('success', trans('message.admin.default.create.success'));
         }
 
-        return back()->with('error', 'Ошибка добавления записи');
+        return back()->with('error', trans('message.admin.default.create.fail'));
     }
 
     /**
@@ -85,7 +87,7 @@ class NewsController extends Controller
         $sources = Source::all();
 
         return view('admin.news.edit', [
-            'title' => 'Редактирование новости',
+            'title' => trans('title.news.edit'),
             'news' => $news,
             'categories' => $categories,
             'sources' => $sources
@@ -99,18 +101,18 @@ class NewsController extends Controller
      * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateRequest $request, News $news)
     {
-        $validated = $request->except(['_token', 'image']);
+        $validated = $request->validated();
         $validated['slug'] = \Str::slug($validated['title']);
         $news = $news->fill($validated);
 
         if($news->save()) {
             return redirect()->route('admin.news.index')
-                    ->with('success', 'Запись успешно обновлена');
+                    ->with('success', trans('message.admin.default.update.success'));
         }
 
-        return back()->with('error', 'Ошибка обновления записи');
+        return back()->with('error', trans('message.admin.default.update.fail'));
     }
 
     /**
@@ -121,6 +123,13 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        try {
+            $news->delete();
+            return response()->json(['id' => $news->id]);
+
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json('error', 400);
+        }
     }
 }

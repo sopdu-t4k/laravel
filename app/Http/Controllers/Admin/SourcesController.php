@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Source;
+use App\Http\Requests\Source\StoreRequest;
+use App\Http\Requests\Source\UpdateRequest;
 use App\Queries\QueryBuilderSources;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class SourcesController extends Controller
     public function index(QueryBuilderSources $sources)
     {
         return view('admin.sources.index', [
-            'title' => 'Источники',
+            'title' => trans('title.sources.index'),
             'items' => $sources->getSources()
         ]);
     }
@@ -30,7 +32,7 @@ class SourcesController extends Controller
     public function create()
     {
         return view('admin.sources.create', [
-            'title' => 'Добавить источник'
+            'title' => trans('title.sources.create')
         ]);
     }
 
@@ -40,22 +42,17 @@ class SourcesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string'],
-            'url' => ['required', 'string']
-	]);
-
-        $validated = $request->only(['title', 'url']);
+        $validated = $request->validated();
         $sourse = new Source($validated);
 
         if($sourse->save()) {
             return redirect()->route('admin.sources.index')
-                    ->with('success', 'Запись успешно добавлена');
+                    ->with('success', trans('message.admin.default.create.success'));
         }
 
-        return back()->with('error', 'Ошибка добавления записи');
+        return back()->with('error', trans('message.admin.default.create.fail'));
     }
 
     /**
@@ -78,7 +75,7 @@ class SourcesController extends Controller
     public function edit(Source $source)
     {
         return view('admin.sources.edit', [
-            'title' => 'Редактирование источника',
+            'title' => trans('title.sources.edit'),
             'source' => $source
         ]);
     }
@@ -90,17 +87,17 @@ class SourcesController extends Controller
      * @param  Source $source
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Source $source)
+    public function update(UpdateRequest $request, Source $source)
     {
-        $validated = $request->only(['title', 'url']);
+        $validated = $request->validated();
         $source = $source->fill($validated);
 
         if($source->save()) {
             return redirect()->route('admin.sources.index')
-                    ->with('success', 'Запись успешно обновлена');
+                    ->with('success', trans('message.admin.default.update.success'));
         }
 
-        return back()->with('error', 'Ошибка обновления записи');
+        return back()->with('error', trans('message.admin.default.update.fail'));
     }
 
     /**
@@ -111,6 +108,13 @@ class SourcesController extends Controller
      */
     public function destroy(Source $source)
     {
-        //
+        try {
+            $source->delete();
+            return response()->json(['id' => $source->id]);
+
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json('error', 400);
+        }
     }
 }

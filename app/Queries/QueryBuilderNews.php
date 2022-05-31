@@ -21,7 +21,16 @@ class QueryBuilderNews implements QueryBuilder
         return News::join('sources', 'news.source_id', '=', 'sources.id')
                 ->select(['news.id', 'news.title', 'news.slug', 'news.preview', 'news.image', 'news.status', 'news.created_at', 'sources.title as source'])
                 ->orderBy('news.created_at', 'desc')
-                ->paginate(10);
+                ->paginate(15);
+    }
+
+    public function getNewsPublic(): LengthAwarePaginator
+    {
+        return News::join('sources', 'news.source_id', '=', 'sources.id')
+                ->select(['news.id', 'news.title', 'news.slug', 'news.preview', 'news.image', 'news.status', 'news.created_at', 'sources.title as source'])
+                ->active()
+                ->orderBy('news.created_at', 'desc')
+                ->paginate(9);
     }
 
     public function getNewsById(int $id)
@@ -36,6 +45,7 @@ class QueryBuilderNews implements QueryBuilder
         return News::join('sources', 'news.source_id', '=', 'sources.id')
                 ->select(['news.id', 'news.category_id', 'news.title', 'news.slug', 'news.preview', 'news.image', 'news.status', 'news.created_at', 'sources.title as source'])
                 ->where('news.category_id', '=', $id)
+                ->active()
                 ->orderBy('news.created_at', 'desc')
                 ->get();
     }

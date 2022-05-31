@@ -27,15 +27,15 @@
             @isset($items)
                 <tbody>
                     @foreach($items as $news)
-                        <tr>
+                        <tr rel="{{ $news->id }}">
                             <td>{{ $news->id }}</td>
                             <td>{{ $news->title }}</td>
                             <td>{{ $news->source }}</td>
                             <td>{{ $news->status }}</td>
-                            <td>{{ $news->created_at }}</td>
+                            <td>{{ $news->created_at->format('d.m.Y H:i') }}</td>
                             <td>
                                 <a href="{{ route('admin.news.edit', ['news' => $news]) }}" class="text-success me-2">edit</a>
-                                <a href="#" class="text-danger">delete</a>
+                                <a href="{{ route('admin.news.destroy', ['news' => $news]) }}" class="text-danger js-delete">delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -46,3 +46,7 @@
 
     {{ $items->links() }}
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush

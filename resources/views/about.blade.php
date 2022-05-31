@@ -16,16 +16,19 @@
 
                 @include('inc.messages')
 
-                <form method="post" action="{{ route('reviews.save') }}">
+                <form id="reviewForm" method="post" action="{{ route('reviews.save') }}">
                     @csrf
 
                     <div class="mb-3">
                         <label class="form-label">Ваше Имя</label>
-                        <input type="text" name="name" class="form-control" required>
+                        <input type="text"
+                               name="name"
+                               class="form-control @error('name') is-invalid @enderror"
+                               value="{{ old('name') }}">
                     </div>
                     <div class="mb-5">
                         <label class="form-label">Ваше сообщение</label>
-                        <textarea class="form-control" name="message" required></textarea>
+                        <textarea name="message" class="form-control @error('message') is-invalid @enderror">{{ old('message') }}</textarea>
                     </div>
                     <button type="submit" class="btn btn-secondary">Отправить</button>
                 </form>
@@ -34,3 +37,7 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/review.js') }}"></script>
+@endpush

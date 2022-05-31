@@ -16,6 +16,10 @@ class News extends Model
         'category_id', 'source_id', 'title', 'slug', 'image', 'status', 'preview'
     ];
 
+    protected $dates = [
+        // здесь можно прописать поля, которые должны храниться как Carbon объект
+    ];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
@@ -24,5 +28,15 @@ class News extends Model
     public function source(): BelongsTo
     {
         return $this->belongsTo(Source::class, 'source_id', 'id');
+    }
+
+    /**
+     * Scope a query to only active status
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeActive($query)
+    {
+        $query->where('status', 'ACTIVE');
     }
 }

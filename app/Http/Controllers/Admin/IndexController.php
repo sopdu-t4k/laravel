@@ -16,8 +16,8 @@ class IndexController extends Controller
     public function __invoke(Request $request)
     {
         return view('admin.index', [
-            'title' => 'Панель администратора',
-            'message' => 'Успешный вход в систему',
+            'title' => trans('title.admin.index'),
+            'message' => trans('message.admin.login.success'),
         ]);
     }
 }

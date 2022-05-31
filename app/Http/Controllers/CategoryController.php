@@ -10,8 +10,8 @@ class CategoryController extends Controller
 {
     public function index(QueryBuilderCategories $categories)
     {
-        return view('category/index', [
-            'title' => 'Категории новостей',
+        return view('category.index', [
+            'title' => trans('title.category.index'),
             'items' => $categories->getCategories()
         ]);
     }
@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
         $news = app(QueryBuilderNews::class)->getNewsByCategory($id);
 
-        return view('news/index', [
+        return view('news.index', [
             'title' => $category->title,
             'items' => $news,
             'pagination' => false

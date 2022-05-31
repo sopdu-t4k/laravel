@@ -25,15 +25,15 @@
             @isset($items)
                 <tbody>
                     @foreach($items as $source)
-                        <tr>
+                        <tr rel="{{ $source->id }}">
                             <td>{{ $source->id }}</td>
                             <td>
                                 <a href="{{ $source->url }}" target="_blank">{{ $source->title }}</a>
                             </td>
                             <td>{{ $source->created_at }}</td>
                             <td>
-                                <a href="{{ route('admin.sources.edit', ['source' => $source->id]) }}" class="text-success me-2">edit</a>
-                                <a href="#" class="text-danger">delete</a>
+                                <a href="{{ route('admin.sources.edit', ['source' => $source]) }}" class="text-success me-2">edit</a>
+                                <a href="{{ route('admin.sources.destroy', ['source' => $source]) }}" class="text-danger js-delete">delete</a>
                             </td>
                         </tr>
                     @endforeach
@@ -42,3 +42,7 @@
         </table>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush

@@ -10,8 +10,8 @@ class NewsController extends Controller
     public function index(QueryBuilderNews $news)
     {
         return view('news/index', [
-            'title' => 'Новости',
-            'items' => $news->getNews(),
+            'title' => trans('title.news.index'),
+            'items' => $news->getNewsPublic(),
             'pagination' => true
         ]);
     }

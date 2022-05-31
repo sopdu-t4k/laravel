@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Queries\QueryBuilderCategories;
+use App\Http\Requests\Category\StoreRequest;
+use App\Http\Requests\Category\UpdateRequest;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -17,7 +19,7 @@ class CategoryController extends Controller
     public function index(QueryBuilderCategories $categories)
     {
         return view('admin.categories.index', [
-            'title' => 'Категории новостей',
+            'title' => trans('title.category.index'),
             'items' => $categories->getCategories()
         ]);
     }
@@ -30,7 +32,7 @@ class CategoryController extends Controller
     public function create()
     {
         return view('admin.categories.create', [
-            'title' => 'Добавить категорию'
+            'title' => trans('title.category.create')
         ]);
     }
 
@@ -40,17 +42,17 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->only(['title', 'description']);
+        $validated = $request->validated();
         $category = new Category($validated);
 
         if($category->save()) {
             return redirect()->route('admin.categories.index')
-                    ->with('success', 'Запись успешно добавлена');
+                    ->with('success', trans('message.admin.default.create.success'));
         }
 
-        return back()->with('error', 'Ошибка добавления записи');
+        return back()->with('error', trans('message.admin.default.create.fail'));
     }
 
     /**
@@ -73,7 +75,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         return view('admin.categories.edit', [
-            'title' => 'Редактирование категории',
+            'title' => trans('title.category.edit'),
             'category' => $category
         ]);
     }
@@ -85,17 +87,17 @@ class CategoryController extends Controller
      * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateRequest $request, Category $category)
     {
-        $validated = $request->only(['title', 'description']);
+        $validated = $request->validated();
         $category = $category->fill($validated);
 
         if($category->save()) {
             return redirect()->route('admin.categories.index')
-                    ->with('success', 'Запись успешно обновлена');
+                    ->with('success', trans('message.admin.default.update.success'));
         }
 
-        return back()->with('error', 'Ошибка обновления записи');
+        return back()->with('error', trans('message.admin.default.update.fail'));
     }
 
     /**
