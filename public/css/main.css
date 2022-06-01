@@ -12,3 +12,14 @@ footer {
 .nav-sidebar .nav-link.active {
     font-weight: bold;
 }
+.review {
+    margin-bottom: 2rem;
+}
+.review-header {
+    margin-bottom: .5rem;
+}
+.review-body {
+    background-color: #d9edf7;
+    padding: 1rem;
+    border-radius: .3rem;
+}

@@ -54,4 +54,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('/sources', AdminSourcesController::class);
     Route::get('/reviews', [ReviewsController::class, 'index'])
         ->name('reviews');
+    Route::delete('/reviews/delete/{id}', [ReviewsController::class, 'delete'])
+        ->name('reviews.delete');
 });

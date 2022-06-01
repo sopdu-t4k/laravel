@@ -13,9 +13,26 @@
                     <th>Имя отправителя</th>
                     <th>Сообщение</th>
                     <th>Дата добавления</th>
+                    <th>Управление</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            @isset($items)
+                <tbody>
+                    @foreach($items as $review)
+                        <tr rel="{{ $review->id }}">
+                            <td>{{ $review->id }}</td>
+                            <td>{{ $review->name }}</td>
+                            <td>{{ $review->message }}</td>
+                            <td>{{ $review->created_at->format('d.m.Y H:i') }}</td>
+                            <td><a href="{{ route('admin.reviews.delete', ['id' => $review->id]) }}" class="text-danger js-delete">delete</a></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            @endisset
         </table>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endpush

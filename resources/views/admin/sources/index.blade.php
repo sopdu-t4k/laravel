@@ -30,7 +30,7 @@
                             <td>
                                 <a href="{{ $source->url }}" target="_blank">{{ $source->title }}</a>
                             </td>
-                            <td>{{ $source->created_at }}</td>
+                            <td>{{ $source->created_at->format('d.m.Y H:i') }}</td>
                             <td>
                                 <a href="{{ route('admin.sources.edit', ['source' => $source]) }}" class="text-success me-2">edit</a>
                                 <a href="{{ route('admin.sources.destroy', ['source' => $source]) }}" class="text-danger js-delete">delete</a>
