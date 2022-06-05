@@ -7,6 +7,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.users')) active @endif" href="{{ route('admin.users') }}">
+                    Пользователи
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link @if(request()->routeIs('admin.categories.*')) active @endif" href="{{ route('admin.categories.index') }}">
                     Категории
                 </a>

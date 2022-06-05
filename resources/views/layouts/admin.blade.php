@@ -5,8 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -17,7 +16,7 @@
 
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="#">Выход</a>
+                    <a class="nav-link px-3" href="{{ route('account.logout') }}"> Выход</a>
                 </div>
             </div>
         </header>

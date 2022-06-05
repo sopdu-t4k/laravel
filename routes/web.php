@@ -7,10 +7,12 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ReviewsController;
 
+use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\SourcesController as AdminSourcesController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,15 +47,29 @@ Route::get('/news/{id}', [NewsController::class, 'show'])
 Route::post('/reviews/save', [ReviewsController::class, 'save'])
         ->name('reviews.save');
 
-//admin routes
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/', AdminController::class)
-            ->name('index');
-    Route::resource('/categories', AdminCategoryController::class);
-    Route::resource('/news', AdminNewsController::class);
-    Route::resource('/sources', AdminSourcesController::class);
-    Route::get('/reviews', [ReviewsController::class, 'index'])
-        ->name('reviews');
-    Route::delete('/reviews/delete/{id}', [ReviewsController::class, 'delete'])
-        ->name('reviews.delete');
+Route::get('/logout', function() {
+	Auth::logout();
+	return redirect()->route('login');
+})->name('account.logout');
+
+Route::group(['middleware' => 'auth'], function() {
+    //admin routes
+    Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::get('/', AdminController::class)
+                ->name('index');
+        Route::resource('/categories', AdminCategoryController::class);
+        Route::resource('/news', AdminNewsController::class);
+        Route::resource('/sources', AdminSourcesController::class);
+        Route::get('/reviews', [ReviewsController::class, 'index'])
+            ->name('reviews');
+        Route::delete('/reviews/delete/{id}', [ReviewsController::class, 'delete'])
+            ->name('reviews.delete');
+        Route::get('/users', [AdminUserController::class, 'index'])
+            ->name('users');
+        Route::post('/users/update', [AdminUserController::class, 'update'])
+            ->name('users.update');
+    });
+
+    Route::get('/account', AccountController::class)
+	->name('account');
 });

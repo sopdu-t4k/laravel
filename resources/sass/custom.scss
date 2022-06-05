@@ -1,0 +1,29 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+footer {
+    margin-top: auto;
+}
+.nav-sidebar {
+    & .nav-link {
+        &:not(.active) {
+            color: inherit;
+        }
+        &.active {
+            font-weight: bold;
+        }
+    }
+}
+.review {
+    margin-bottom: 2rem;
+    &-header {
+        margin-bottom: .5rem;
+    }
+    &-body {
+        background-color: #d9edf7;
+        padding: 1rem;
+        border-radius: .3rem;
+    }
+}
