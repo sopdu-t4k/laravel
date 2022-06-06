@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Queries\QueryBuilderUsers;
 
+use App\Models\User;
+
 class UserController extends Controller
 {
     public function index(QueryBuilderUsers $users)
@@ -41,6 +43,13 @@ class UserController extends Controller
             \Log::error($e->getMessage());
             return response()->json(['danger'=> trans('message.admin.users.update.fail')], 400);
         }
+    }
+
+    public function changeIsAdmin(User $user)
+    {
+        $user->changeIsAdmin();
+
+        return response()->json(['message' => 'Role updated! GG']);
     }
 
     private function splitUsersRole($users): array

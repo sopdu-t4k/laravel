@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth'], function() {
             ->name('users');
         Route::post('/users/update', [AdminUserController::class, 'update'])
             ->name('users.update');
+        Route::post('/users/{user}/change-is-admin', [AdminUserController::class, 'changeIsAdmin'])
+            ->name('users.change-is-admin');
     });
 
     Route::get('/account', AccountController::class)

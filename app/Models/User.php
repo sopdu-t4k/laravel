@@ -43,4 +43,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean'
     ];
+
+    public function changeIsAdmin(): static
+    {
+        $this->is_admin = !$this->is_admin;
+
+        return $this;
+    }
 }

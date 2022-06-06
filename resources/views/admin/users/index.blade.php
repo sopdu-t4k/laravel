@@ -28,8 +28,9 @@
                                     <input class="form-check-input js-check"
                                            type="checkbox"
                                            value="{{ $user->id }}"
-                                           @if($user->is_admin) checked @endif
-                                           @if($user->id === Auth::id()) disabled @endif>
+                                           @checked($user->is_admin)
+                                           @disabled($user->id === Auth::id())
+                                    >
                                 </td>
                                 <td>{{ $user->created_at->format('d.m.Y H:i') }}</td>
                             </tr>
@@ -45,5 +46,30 @@
 @endsection
 
 @push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/users.js') }}"></script>
+    <script>
+      $('.js-check').click(function () {
+        let userId = $(this).val()
+        $.ajax({
+          url: `/admin/users/${userId}/change-is-admin`,
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+          },
+          processData: false,
+          contentType: false,
+          type: 'POST',
+          success: function(data) {
+            let alert = createAlert(data.message);
+            alert.append(data.message);
+            form.prepend(alert);
+          },
+          error: function (error) {
+            console.error(error);
+          }
+        });
+      })
+    </script>
 @endpush
