@@ -21,9 +21,8 @@ class QueryBuilderUsers implements QueryBuilder
                 ->get();
     }
 
-    public function updateIsAdmin(array $keys, bool $is_admin): int
+    public function updateIsAdmin(array $keys, bool $is_admin): bool
     {
-        return User::whereIn('id', $keys)
-                ->update(['is_admin' => $is_admin]);
+        return (bool) User::whereIn('id', $keys)->update(['is_admin' => $is_admin]);
     }
 }

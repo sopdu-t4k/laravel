@@ -40,29 +40,29 @@ function removeAlert() {
     }
 }
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     let formdata = {};
-//
-//     let checkElems = document.querySelectorAll('.js-check');
-//
-//     if(checkElems !== null) {
-//         each(checkElems, function(elem) {
-//             elem.addEventListener('change', function() {
-//                 formdata[this.value] = this.checked;
-//             });
-//
-//         });
-//     }
-//
-//     form = document.getElementById('usersForm');
-//
-//     if (form !== null) {
-//         form.addEventListener('submit', function(e) {
-//             e.preventDefault();
-//             if (Object.keys(formdata).length) {
-//                 sendRequestServer(this.action, formdata);
-//                 formdata = {};
-//             }
-//         });
-//     }
-// });
+document.addEventListener('DOMContentLoaded', () => {
+    let formdata = {};
+
+    let checkElems = document.querySelectorAll('.js-check');
+
+    if(checkElems !== null) {
+        each(checkElems, function(elem) {
+            elem.addEventListener('change', function() {
+                formdata[this.value] = this.checked;
+            });
+
+        });
+    }
+
+    form = document.getElementById('usersForm');
+
+    if (form !== null) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (Object.keys(formdata).length) {
+                sendRequestServer(this.action, formdata);
+                formdata = {};
+            }
+        });
+    }
+});
