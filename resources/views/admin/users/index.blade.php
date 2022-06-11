@@ -28,8 +28,9 @@
                                     <input class="form-check-input js-check"
                                            type="checkbox"
                                            value="{{ $user->id }}"
-                                           @if($user->is_admin) checked @endif
-                                           @if($user->id === Auth::id()) disabled @endif>
+                                           @checked($user->is_admin)
+                                           @disabled($user->id === Auth::id())
+                                    >
                                 </td>
                                 <td>{{ $user->created_at->format('d.m.Y H:i') }}</td>
                             </tr>

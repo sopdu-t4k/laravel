@@ -68,6 +68,22 @@
                         Нет аккаунта? <a href="{{ route('register') }}">{{ __('Register') }}</a>
                     </div>
                 @endif
+
+                <div class="text-center mt-5">
+                    <p>Вход через соцсети</p>
+                    <div class="d-flex justify-content-center">
+                        <div class="px-2">
+                            <a href="{{ route('social.redirect', ['driver' => 'vkontakte']) }}">
+                                <img src="img/vk.png" alt="VK"/>
+                            </a>
+                        </div>
+                        <div class="px-2">
+                            <a href="{{ route('social.redirect', ['driver' => 'github']) }}">
+                                <img src="img/github.png" alt="Github"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

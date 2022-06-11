@@ -9,7 +9,12 @@
         @endif
 
         <div class="jumbotron">
-            <h5>Welcome, {{ auth()->user()->name }}</h5>
+            <h5>
+                Добро пожаловать, {{ auth()->user()->name }}
+                @if(Auth::user()->avatar)
+                    <img src="{{ Auth::user()->avatar }}" class="ms-2" style="width:50px;">
+                @endif
+            </h5>
             <h1 class="display-3">Bootstrap 5 Laravel Fortify Authentication</h1>
             <p class="lead">This is a simple auth starter setup for laravel 9 projects</p>
             <hr class="my-4">

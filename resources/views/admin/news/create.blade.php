@@ -24,7 +24,7 @@
                 <select class="form-select" name="source_id">
                     @foreach($sources as $source)
                         <option value="{{ $source->id }}"
-                                @if($source->id == old('source_id')) selected @endif
+                                @selected($source->id == old('source_id'))
                                 >{{ $source->title }}
                         </option>
                     @endforeach
@@ -35,7 +35,7 @@
                 <select class="form-select" name="category_id">
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}"
-                                @if($category->id == old('category_id')) selected @endif
+                                @selected($category->id == old('category_id'))
                                 >{{ $category->title }}
                         </option>
                     @endforeach
@@ -44,9 +44,9 @@
             <div class="mb-5">
                 <label class="form-label">Статус</label>
                 <select class="form-select" name="status">
-                    <option @if(old('status') === 'DRAFT') selected @endif>DRAFT</option>
-                    <option @if(old('status') === 'ACTIVE') selected @endif>ACTIVE</option>
-                    <option @if(old('status') === 'BLOCKED') selected @endif>BLOCKED</option>
+                    <option @selected(old('status') === 'DRAFT')>DRAFT</option>
+                    <option @selected(old('status') === 'ACTIVE')>ACTIVE</option>
+                    <option @selected(old('status') === 'BLOCKED')>BLOCKED</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Сохранить</button>

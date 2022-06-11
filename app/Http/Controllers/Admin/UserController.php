@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Queries\QueryBuilderUsers;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -20,9 +21,9 @@ class UserController extends Controller
      * Пакетное обновление пользователей
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Queries\QueryBuilderUsers  $users
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse;
      */
-    public function update(Request $request, QueryBuilderUsers $users)
+    public function update(Request $request, QueryBuilderUsers $users): JsonResponse
     {
         try {
             $admins = $this->splitUsersRole($request->all());
